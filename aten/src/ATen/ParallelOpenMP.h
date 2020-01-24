@@ -31,11 +31,13 @@ inline void parallel_for(
     num_threads = std::min(num_threads, divup((end - begin), grain_size));
   }
 
-#pragma omp parallel num_threads(num_threads)
+  auto task_num = num_threads;
+
+#pragma omp parallel
   {
-    int64_t num_threads = omp_get_num_threads();
+    // int64_t num_threads = omp_get_num_threads();
     int64_t tid = omp_get_thread_num();
-    int64_t chunk_size = divup((end - begin), num_threads);
+    int64_t chunk_size = divup((end - begin), task_num);
     int64_t begin_tid = begin + tid * chunk_size;
     if (begin_tid < end) {
       try {
