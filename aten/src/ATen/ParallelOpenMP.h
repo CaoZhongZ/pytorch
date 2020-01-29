@@ -27,13 +27,14 @@ inline void parallel_for(
   std::exception_ptr eptr;
   // choose number of tasks based on grain size and number of threads
   int64_t num_threads = omp_in_parallel() ? 1 : omp_get_max_threads();
+  auto total_threads = num_threads;
   if (grain_size > 0) {
     num_threads = std::min(num_threads, divup((end - begin), grain_size));
   }
 
   auto task_num = num_threads;
 
-#pragma omp parallel
+#pragma omp parallel num_threads(total_threads)
   {
     // int64_t num_threads = omp_get_num_threads();
     int64_t tid = omp_get_thread_num();
