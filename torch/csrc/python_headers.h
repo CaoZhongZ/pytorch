@@ -6,7 +6,7 @@
 #pragma push_macro("_POSIX_C_SOURCE")
 #undef _XOPEN_SOURCE
 #undef _POSIX_C_SOURCE
-
+#include <math.h>
 #include <Python.h>
 #include <structseq.h>
 
